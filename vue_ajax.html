@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ajax Vue</title>
+  <script src="https://unpkg.com/vue"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.3/axios.min.js"></script>
+
+</head>
+<body>
+  <div id="app">
+        <ajax url="https://jsonplaceholder.typicode.com/posts">
+        </ajax>
+  </div>
+
+  <script>
+    //https://jsonplaceholder.typicode.com/posts
+    ajax = Vue.component('ajax', {
+        prop: ['url'], 
+        template: `<p></p>`,
+        created: function() {
+         this.foreach(); 
+        },
+        data: function(){
+            return {
+             posts: []
+           }
+        },
+        methods: {
+            foreach: function(){
+                axios
+                .get(this.$vnode.data.attrs.url)
+                .then(response => {
+                    this.data = response.data;
+                    this.posts = response.data;
+                    this.data.forEach((item) => {
+                      document.write("<li>" + item.title + "</li>")
+                  });
+                })
+
+            }
+        }
+
+    });
+
+    new Vue({
+        el: '#app',
+        components: {
+            ajax
+        }
+    });
+
+  </script>
+</body>
+</html>
